@@ -23,16 +23,14 @@ library(dplyr)
 ```
 
 
-## Including Plots
-
-You can also embed plots, for example:
+Chargement du fichier dans la variable data frame (dfr)
 
 ```{r}
 dfr <- read_csv("US Mass Shootings.csv")
 ```
 
+1.2 - Complétez les valeurs manquantes des variables "Latitude" et "Longitude" en utilisant les informations de la variable "Lieu". Complétez également ce dernier.
 
-Complete the missing values of the variables "Latitude" and "Longitude" by using the information of the variable "Location". Also complete this last one.
 ```{r}
 install.packages("jsonlite")
 
@@ -89,71 +87,66 @@ for(i in 1:nrow(dfr))
 }
 ```
 
-Separate the variable "Date" in three variables "Day", "Month", "Year". Convert the two first ones in strings, with values the name of the day and the name of the month. The variable "Year" will be numeric.
+
+1.3 - Séparez la variable "Date" en trois variables "Jour", "Mois", "Année". Convertissez les deux premiers en chaînes, avec des valeurs le nom du jour et le nom du mois. La variable "Année" sera numérique.
 ```{r}
  dfr <- dfr %>%  separate(Date, sep = "/" ,into = c("month", "day", "year"))
 ```
 
 
-Suppress duplicates and facilitate further analysis by doing smart grouping of values for the following categorical variables: "Gender", "Race", "Mental Health Issues", "Open/Close Location" and "Cause". Optional: do the same thing for the variables "Target", "Incident Area" and "Weapon Type".
+1.4 - Supprimez les doublons et facilitez une analyse plus approfondie en effectuant un regroupement intelligent des valeurs pour les variables catégorielles suivantes: "Sexe", "Race", "Problèmes de santé mentale", "Ouvrir / fermer l'emplacement" et "Cause". Facultatif: faites la même chose pour les variables "Cible", "Zone d'incident" et "Type d'arme".
 
 ```{r}
 dfr %>% 
-  select(Gender) %>%  # %>% 
-  # unique()
+  select(Gender) %>%
   group_by(Gender) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(Race) %>%  # %>% 
-  # unique()
+  select(Race) %>%
   group_by(Race) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(`Mental Health Issues`) %>%  # %>% 
-  # unique()
+  select(`Mental Health Issues`) %>%
   group_by(`Mental Health Issues`) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(`Open/Close Location`) %>%  # %>% 
-  # unique()
+  select(`Open/Close Location`) %>%  
   group_by(`Open/Close Location`) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(Cause) %>%  # %>% 
-  # unique()
+  select(Cause) %>% 
   group_by(Cause) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(`Incident Area`) %>%  # %>% 
-  # unique()
+  select(`Incident Area`) %>% 
   group_by(`Incident Area`) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(Target) %>%  # %>% 
-  # unique()
+  select(Target) %>%
   group_by(Target) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 
 dfr %>% 
-  select(`Weapon Type`) %>%  # %>% 
-  # unique()
+  select(`Weapon Type`) %>% 
   group_by(`Weapon Type`) %>% 
   summarise(nb = n()) %>% 
   arrange(-nb)
 ```
+
+INITIATIVE : Pour une meilleure visibilité des données que nous utiliserons ultérieurement, nous regrouperons les valeurs relatives au GENRE, à la COURSE, à LA CONDITION MENTALE et au LIEU DES CRIMES dans les noms communs.
 
 ```{r}
 for(i in 1:nrow(dfr))
@@ -212,8 +205,9 @@ for(i in 1:nrow(dfr))
 }
 ```
 
+II- Etude des variables catégorielles.
 
-Add a binary categorical variable, with value 1 if the variable "Total victims" is greater or equal to 10 and 0 otherwise.  
+2.1 - Ajoutez une variable catégorielle binaire, avec la valeur 1 si la variable "Total victimes" est supérieure ou égale à 10 et 0 sinon.  
 ```{r}
 
   dfr[,"MoreThanTenKills"] <- NA
@@ -233,9 +227,9 @@ for(i in 1:nrow(dfr))
 }
 ```
 
-Study individually the main categorical variables
+2.2 -Etudier individuellement les principales variables catégorielles
 
-Gender
+*Gender
 
 ```{r}
 dfrClean <- dfr
@@ -250,12 +244,21 @@ dfrClean %>%
   geom_text(aes(x = fct_reorder(Gender, nb), y = nb + 50, label = nb) )
 
 genre <- c(284,21,5,4)
-chisq.test(genre, p = c(1/4, 1/4, 1/4, 1/4))
+#chisq.test(genre, p = c(1/4, 1/4, 1/4, 1/4))
 chisq.test(genre, p = c(0.91, 0.03, 0.03,0.03))
 prop.test(genre,c(314,314,314,314))
 ```
+INTERPRETATION:
 
-Race
+-Dans le test de chi 2 effectuer , l'hypothese null que nous posons est que il n'ya pas d'égalités entre les proportions des genres.
+D'apres nos resultats , l'hypothese null est verifiée car la p-value obtenue est superieur à 0.05
+
+-Pour le test de proportion il en ressort que nous avons 90,40% de personne masculin,  6.70% de personne donc le genre est masculin et feminin,  1.6% de personnes feminines, et 1.3% de personnes   
+
+Tous ces résultats sont visibles grace au graphique effectué.
+
+
+*RACE
 ```{r}
 
 dfrClean %>% 
@@ -272,8 +275,19 @@ chisq.test(race, p = c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6))
 prop.test(race,c(314,314,314,314,314,314))
 
 ```
+INTERPRETATION:
 
-`Mental Health Issues
+-Dans le test de chi 2 effectuer , l'hypothese null que nous posons est que il y'a une égalité entre les proportions des races.
+
+-D'apres nos resultats , l'hypothese null n'est pas verifiée car la p-value obtenue est inferieur à 0.05
+
+-Pour le test de proportion il en ressort que nous avons 44.60% d'americain blanc ou d'origine europeenne,  26.40% de noires  americain ou d'origine africaine, 21% de personne de race inconnue, 5.40% d'americain d'origine asiatique, 1.60% de latino, 0% d'americain natif ou de natif d'alaska.
+
+Tous ces résultats sont visibles grace au graphique realisé à cet effet.
+
+
+*Mental Health Issues
+
 ```{r}
 dfrClean %>% 
   group_by(`Mental Health Issues`) %>% 
@@ -288,8 +302,18 @@ mentalHealth <- c(120,103,91)
 chisq.test(mentalHealth, p = c(1/3,1/3,1/3))
 prop.test(mentalHealth,c(314,314,314))
 ```
+INTERPRETATION:
 
-open/clause location
+-Dans le test de chi 2 effectué , l'hypothese null que nous posons est que il y'a une égalité entre les proportions de personne atteinte de maladie mentale et celle qui ne sont pas.
+
+-D'apres nos resultats , l'hypothese null est verifiée  car la p-value n'est pas inferieur à 0.05
+
+-Pour le test de proportion il en ressort que nous avons 38.20.60% de personne donc l'état mental est inconnue,  32.80% de personnes souffrantes de maladie mentale, 29% de personnes saine mentalement. 
+
+Tous ces résultats sont visibles grace au graphique realisé à cet effet.
+
+
+*open/clause location
 
 ```{r}
 
@@ -306,7 +330,19 @@ OpenClose <- c(211,79,20,4)
 chisq.test(OpenClose, p = c(1/4,1/4,1/4, 1/4))
 prop.test(OpenClose,c(314,314,314,314))
 ```
-cause
+
+INTERPRETATION:
+
+-Dans le test de chi 2 effectué , l'hypothese null que nous posons est que il y'a une égalité entre les proportions des lieux où ont eu lieu des crimes.
+
+-D'apres nos resultats , l'hypothese null n'est verifiée  car la p-value est largement inferieur à 0.05
+
+-Pour le test de proportion il en ressort que nous avons 67.20% des crimes qui sont commis dans des espaces fermés, 25.10% sont comis dans des espaces ouverts, 6.40% sont commis dans des espaces fermé / ouvert et 1.30% dans des espaces inconnues 
+
+Tous ces résultats sont visibles grace au graphique realisé à cet effet.
+
+*cause // à faire
+
 ```{r}
 dfrClean %>% 
   group_by(Cause) %>% 
@@ -321,10 +357,21 @@ cause <- c(77,64,61,44,18,12,10,9,6,4)
 prop.test(cause,c(314,314,314,314,314,314,314,314,314,314))
 ```
 
+INTERPRETATION:
 
-Represent associations between pairs of categorical variables (Stacked bar charts, Grouped bar charts, etc.).
+-Dans le test de chi 2 effectué , l'hypothese null que nous posons est que il y'a une égalité entre les proportions de personne atteinte de maladie mentale et celle qui ne sont pas.
 
-race / gender
+-D'apres nos resultats , l'hypothese null est verifiée  car la p-value n'est pas inferieur à 0.05
+
+-Pour le test de proportion il en ressort que nous avons 24.50% de meutres sont d'origines non repertoriés , 20.40% sont de causes psychologiques, 19.40% sont de causes téroristes , 14% sont du à la colère, 5.70% sont du à la frustration, 3.80% sont du aux disputes domestiques, 3.20% sont du au chomage, 2.90% sont du à des actes de vengeance, 1.90% sont du au racisme, 1.30% sont de cause inconnue. 
+
+Tous ces résultats sont visibles grace au graphique realisé à cet effet.
+
+
+
+2.3 - Représenter les associations entre des paires de variables catégorielles (graphiques à barres empilées, graphiques à barres groupées, etc.).
+
+* RACE / GENDER
 
 
 ```{r}
