@@ -473,6 +473,7 @@ ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$Age)) +
   labs(x = "Ethnie", y = "Age")
 ```
 somme total victim // race
+moyenne victime / race
 ```{r}
 plotdata <- dfr %>%
   group_by(Race) %>%
@@ -562,15 +563,12 @@ Female <- dfr[dfr$Gender == "Female",]
 open <- dfr[dfr$`Open/Close Location` == "Open" ,]
 close <- dfr[dfr$`Open/Close Location` == "Close",]
 
-t.test(MHIyes$`Total victims`,dfr$Age)
-t.test(MHIno$`Total victims`,dfr$Age)
-t.test(Male$`Total victims`,dfr$Age)
-t.test(Female$`Total victims`,dfr$Age)
-t.test(open$`Total victims`,dfr$Age)
-t.test(close$`Total victims`,dfr$Age)
-
-
-
+t1 <- t.test(MHIyes$`Total victims`,MHIyes[MHIyes$Age < 100,]$Age)
+t2 <-t.test(MHIno$`Total victims`,MHIno[MHIno$Age < 100,]$Age)
+t3 <-t.test(Male$`Total victims`,Male[Male$Age < 100,]$Age)
+t4 <-t.test(Female$`Total victims`,Female[Female$Age < 100,]$Age)
+t5 <-t.test(open$`Total victims`,open[open$Age < 100,]$Age)
+t6 <-t.test(close$`Total victims`,close[close$Age < 100,]$Age)
 
 ```
 
