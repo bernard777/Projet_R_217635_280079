@@ -403,6 +403,9 @@ ggplot(dfrClean, aes(x = dfrClean$`Mental Health Issues`, y = 1, fill = Gender))
   ylab("Nombre\n") +
   theme_bw()
 ```
+INTERPRETATION: 
+- Ce graphe represente la repartition des genres des individus par rapport aux fait qu'ils ont des troubles mentaux ou pas. Les hommes etant énormement représenté dans les deux cas, il en ressort que les hommes sont plus sujet aux troubles mentaux que les autres genres.
+
 
 race / cause
 ```{r}
@@ -413,14 +416,16 @@ ggplot(dfrClean, aes(x = dfrClean$Race, y = 1, fill = Cause)) +
   theme_bw()
 
 ```
+INTERPRETATION: 
+- Ce graphe represente la repartition par race des causes à l'origines des crimes aux USA. Il en ressort que les causes les plus frequentes de mortalité à savoir psychologique, la frustration, therorisme, chomage sont orchestrés par les americains de race blanche ou d'origines europeennes. 
 
-Study of quantitative variables.
 
-Fatalities
+
+3 - Etude des variables quantitatives.
+
+* Fatalities
 ```{r}
 
-dfrClean%>% 
-  summary()
 
 dfr %>% 
   summary()
