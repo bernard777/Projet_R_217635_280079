@@ -526,17 +526,31 @@ t.test(close$`Total victims`,dfr$Age)
 Perform an ANOVA to compare the mean of the variable "Total victims" depending on all levels of some categorical variables. Same question with the variable "Age".
 
 ```{r}
-anovaCause <- aov(var ~ dfr$Cause, dfr$`Total victims`)
+anovaCause <- aov(dfr$`Total victims` ~ dfr$Cause  , dfr)
+anovaRace <- aov(dfr$`Total victims` ~ dfr$Race, dfr )
+anovaOpenClose <- aov(dfr$`Total victims` ~ dfr$`Open/Close Location`,dfr)
+anovaGender <- aov(dfr$`Total victims`~ dfr$Gender, dfr)
 
-
-anovaRace <- aov(var ~ dfr$Race, data.frame(totalVictims = dfr$`Total victims`))
-anovaGender <- aov(var ~ dfr$Gender, data.frame(totalVictims = dfr$`Total victims`))
-anovaOpenClose <- aov(var ~ dfr$`Open/Close Location`, data.frame(totalVictims = dfr$`Total victims`))
 summary(anovaCause)
 summary(anovaRace )
+summary(anovaOpenClose )
 summary(anovaGender)
-summary(anovaOpenClose)
+
 ```
+
+```{r}
+anovaCause2 <- aov(dfr$Age ~ dfr$Cause  , dfr)
+anovaRace2 <- aov(dfr$Age ~ dfr$Race, dfr )
+anovaOpenClose2 <- aov(dfr$Age ~ dfr$`Open/Close Location`,dfr)
+anovaGender2 <- aov(dfr$Age~ dfr$Gender, dfr)
+
+summary(anovaCause2)
+summary(anovaRace2 )
+summary(anovaOpenClose2 )
+summary(anovaGender2)
+```
+
+
 Create a new table with the total of variables "Fatalities", "Injured" and "Total victims" by year. Represent how these variables depend on the year (Scatterplots for each variable, Same scatterplot for the three variables, etc.).
 
 ```{r}
