@@ -477,7 +477,11 @@ ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$Age)) +
    coord_cartesian(ylim = c(0, 100))+ 
   labs(x = "Ethnie", y = "Age")
 ```
-somme total victim // race
+
+
+
+*somme total victim / race
+
 ```{r}
 plotdata <- dfr %>%
   group_by(Race) %>%
@@ -506,7 +510,7 @@ INTERPRETATION :
 Grace à l'etude méné sur la relation entre l'age et la race , on remarque grace à ce graphe que les moyennes d'age des races des personnes qui commettent des crimes sont comprises entre 28 et 33 ans. 
 
 
-openClause / total victim
+* openClause / total victim
 
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$`Open/Close Location`, y=dfrClean$`Total victims`)) + 
@@ -538,7 +542,8 @@ INTERPRETATION:
 
 -Sur ce graphe on constate qu'il ya plus de victime du à des causes inconnues mais en majorité les causes faisant le plus de victime sont les moins frequentes comme l'alcool, le vole et le radicalisme religieux. 
 
-age / nb victim
+*age / nb victim
+
 ```{r}
 ggplot(dfrClean, 
        aes(x = dfrClean$Age, 
@@ -567,6 +572,11 @@ ggplot(dfrClean,
   coord_cartesian(ylim = c(0, 30),xlim = c(0,75))+ 
   labs(x = "Age", y = "Total victimes")
 ```
+
+INTERPRETATION: 
+
+- Plus l'age des personnes augmentent plus il y'a de victime. 
+
 
 
 perform t-tests to compare pairwise the mean of the variable "Total victims" depending on two levels of some categorical variables (Mental Health issue or not, Male or Female, Open or Close Location, etc.). Same question with the variable "Age".
