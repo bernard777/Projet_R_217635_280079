@@ -598,6 +598,16 @@ t.test(close$`Total victims`,close[close$Age < 100,]$Age)
 
 ```
 
+INTERPRETATION :
+
+- En effectuant un t-test entre le total des victimes et les personnes qui ont les troubles menrtaux ou pas , on remarque que les personnes qui ont des troubles mentaux sont plus jeunes et font plus de victimes que celles qui sont saines d'esprit 
+
+- Entre le total des victimes et le genre Male/Female onn remarque que les hommes plus jeunes font plus de victimes que les femmmes.
+
+-Entre le total des victimes et les lieux des crimes Open/Close, on remarque que les criminels assez jeune font plus de victimes dans les lieux ouvert que les criminel moins jeunes. 
+
+
+
 Perform an ANOVA to compare the mean of the variable "Total victims" depending on all levels of some categorical variables. Same question with the variable "Age".
 
 ```{r}
