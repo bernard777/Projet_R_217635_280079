@@ -608,7 +608,7 @@ INTERPRETATION :
 
 
 
-Perform an ANOVA to compare the mean of the variable "Total victims" depending on all levels of some categorical variables. Same question with the variable "Age".
+3.4 - Effectuer une ANOVA pour comparer la moyenne de la variable "Total victimes" en fonction de tous les niveaux de certaines variables catégorielles. Même question avec la variable "Age".
 
 ```{r}
 anovaCause <- aov(dfr$`Total victims` ~ dfr$Cause  , dfr)
@@ -616,12 +616,48 @@ anovaRace <- aov(dfr$`Total victims` ~ dfr$Race, dfr )
 anovaOpenClose <- aov(dfr$`Total victims` ~ dfr$`Open/Close Location`,dfr)
 anovaGender <- aov(dfr$`Total victims`~ dfr$Gender, dfr)
 
+
+group_by(dfr, Cause) %>%
+	summarise(
+		count = n(),
+		mean_tt = mean(`Total victims`, na.rm = TRUE),
+		sd_tt = sd(`Total victims`, na.rm = TRUE)
+	)
+
+group_by(dfr, Race) %>%
+	summarise(
+		count = n(),
+		mean_t = mean(`Total victims`, na.rm = TRUE),
+		sd_t = sd(`Total victims`, na.rm = TRUE)
+	)
+
+group_by(dfr, dfr$`Open/Close Location`) %>%
+	summarise(
+		count = n(),
+		mean_t = mean(`Total victims`, na.rm = TRUE),
+		sd_t = sd(`Total victims`, na.rm = TRUE)
+	)
+
+group_by(dfr, Gender) %>%
+	summarise(
+		count = n(),
+		mean_t = mean(`Total victims`, na.rm = TRUE),
+		sd_t = sd(`Total victims`, na.rm = TRUE)
+	)
+
+
 summary(anovaCause)
 summary(anovaRace )
 summary(anovaOpenClose )
 summary(anovaGender)
 
 ```
+
+INTERPRETATION: 
+
+- D'apres le test Anova effectué sur la variance de la moyenne entre les variables categorielles on remarque qu'il ya une difference signicative.
+
+
 
 ```{r}
 anovaCause2 <- aov(dfr$Age ~ dfr$Cause  , dfr)
@@ -635,8 +671,13 @@ summary(anovaOpenClose2 )
 summary(anovaGender2)
 ```
 
+INTERPRETATION:
 
-Create a new table with the total of variables "Fatalities", "Injured" and "Total victims" by year. Represent how these variables depend on the year (Scatterplots for each variable, Same scatterplot for the three variables, etc.).
+- D'apres le test Anova effectué sur la variance de la moyenne entre les variables categorielles on remarque qu'il ya une difference non signicative.
+
+
+
+3.5 - Créez un nouveau tableau avec le total des variables " Décès ", " Blessés " et " Total des victimes " par année. Représenter comment ces variables dépendent de l'année (Diagrammes de dispersion pour chaque variable, Même diagramme de dispersion pour les trois variables, etc.)
 
 ```{r}
 FatalityByYear <- data.frame(matrix(ncol = 4, nrow = 0))
@@ -676,7 +717,7 @@ ggplot(FatalityByYear,
 
 ```
 
-Use the previous table to perform a regression between the variable "Total victims" and the variable "Year". Is a linear regression relevant? And an exponential one? Same questions starting in 2010. Make predictions.
+3.6 - Utilisez le tableau précédent pour effectuer une régression entre la variable "Total des victimes" et la variable "Année". Une régression linéaire est-elle pertinente? Et une exponentielle? Mêmes questions à partir de 2010. Faire des prédictions.
 
 une regression liéaire est utile jusqu'à 2008-2009 au dela des ces dates il faut une regression exponentiel car les chiffres augmentent selon un profil exponentiel.
 
@@ -706,7 +747,7 @@ ggplot(FatalityByYear,
   labs(x = "Age", y = "morts")
 ```
 
-Use the variables "Longitude" and "Latitude" to draw a scatterplot with the US map in background. Documente yourself to do that. Make several versions.
+4 - Utilisez les variables "Longitude" et "Latitude" pour dessiner un nuage de points avec la carte américaine en arrière-plan. Documentez-vous pour le faire. Faites plusieurs versions.
 
 ```{r}
 library(maps)
@@ -731,7 +772,8 @@ library(maps)
 
 
 
-Bonus: make Choropleth maps to compare the different states.
+BONUS: créez des cartes choroplèthes pour comparer les différents états.
+
 ```{r}
 TotalRegion <- data.frame(matrix(ncol = 5, nrow = 0))
 x <- c("region", "Fatalities", "Injured","Total victims", "nb")
@@ -791,7 +833,8 @@ Perform a k-means clustering algorithm with the variables "Total victims", "Long
 
 ```
 
-Make cross reference to other datasets, in particular datasets with information at the level of states (gun possession, death penalty, etc.).
+
+Faire des renvois à d'autres ensembles de données, en particulier des ensembles de données contenant des informations au niveau des États (possession d'armes à feu, peine de mort, etc.).
 
 ```{r}
 dfrArrest <- readr::read_csv("USArrests.csv")
