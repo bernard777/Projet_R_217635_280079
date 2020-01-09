@@ -597,3 +597,127 @@ ggplot(FatalityByYear,
   geom_smooth(method='loess', formula= y~x)
 ```
 
+Use the variables "Longitude" and "Latitude" to draw a scatterplot with the US map in background. Documente yourself to do that. Make several versions.
+
+```{r}
+library(maps)
+ US <- map_data("world") %>% filter(region=="USA")
+ 
+ ggplot() +
+  geom_polygon(data = US, aes(x=US$long, y = US$lat, group = US$group), fill="grey", alpha=0.3) +
+  geom_point(data=dfr, aes(x=as.numeric(dfr$Longitude), y=as.numeric(dfr$Latitude))) + ylim(24,71)+ xlim(-180,-60) +coord_map() +theme_void()
+ 
+  ggplot() +
+  geom_polygon(data = US, aes(x=US$long, y = US$lat, group = US$group), fill="grey", alpha=0.3) +
+  geom_point(data=dfr, aes( x=as.numeric(dfr$Longitude), y=as.numeric(dfr$Latitude),color=factor(dfr$`Mental Health Issues`))) + ylim(24,50)+ xlim(-130,-65) +coord_map() +theme_void()
+
+    ggplot() +
+  geom_polygon(data = US, aes(x=US$long, y = US$lat, group = US$group), fill="grey", alpha=0.3) +
+  geom_point(data=dfr, aes( x=as.numeric(dfr$Longitude), y=as.numeric(dfr$Latitude),color=factor(dfr$`Open/Close Location`))) + ylim(24,50)+ xlim(-130,-65) +coord_map() +theme_void()
+    
+      ggplot() +
+  geom_polygon(data = US, aes(x=US$long, y = US$lat, group = US$group), fill="grey", alpha=0.3) +
+  geom_point(data=dfr, aes( x=as.numeric(dfr$Longitude), y=as.numeric(dfr$Latitude),color=factor(dfr$Cause))) + ylim(24,50)+ xlim(-130,-65) +coord_map() +theme_void()
+```
+
+
+
+Bonus: make Choropleth maps to compare the different states.
+```{r}
+TotalRegion <- data.frame(matrix(ncol = 5, nrow = 0))
+x <- c("region", "Fatalities", "Injured","Total victims", "nb")
+colnames(TotalRegion) <- x 
+
+uniqueRegion <-  unique(dfr$State)
+
+
+for(i in 1:length(uniqueRegion))
+{
+  subsetDfr <- dfr[dfr$State == uniqueRegion[i],]
+  temp <- data.frame(uniqueRegion[i],sum(subsetDfr$Fatalities), sum(subsetDfr$Injured), sum(subsetDfr$`Total victims`), nrow(subsetDfr))
+  names(temp)<-c("region", "Fatalities", "Injured","Total victims","nb")
+  TotalRegion <- rbind(TotalRegion, temp)
+}
+
+states_map <- map_data("state")
+
+
+arrests_map <- left_join(states_map, TotalRegion, by = "region")
+
+for(i in 1:nrow(TotalRegion)){
+  for(j in 1:nrow(arrests_map)){
+    if(tolower(arrests_map$region[j]) == tolower(TotalRegion$region[i])){
+      arrests_map$Fatalities[j] <- TotalRegion$Fatalities[i]
+      arrests_map$Injured[j] <- TotalRegion$Injured[i]
+      arrests_map$`Total victims`[j] <- TotalRegion$`Total victims`[i]
+      arrests_map$nb[j] <- TotalRegion$nb[i]
+    }
+  }
+}
+
+ggplot(arrests_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = Fatalities), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(arrests_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = Injured), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(arrests_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = `Total victims`), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(arrests_map[arrests_map$`Total victims`<100,], aes(long, lat, group = group))+
+  geom_polygon(aes(fill = `Total victims`), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(arrests_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = nb), color = "white")+
+  scale_fill_viridis_c(option = "C",) + theme_void()
+```
+
+
+Perform a k-means clustering algorithm with the variables "Total victims", "Longitude" and "Latitude". Determine the optimal number of clusters and represent them on a map like in question 4.
+```{r}
+
+```
+
+Make cross reference to other datasets, in particular datasets with information at the level of states (gun possession, death penalty, etc.).
+
+```{r}
+dfrArrest <- readr::read_csv("C:\\Users\\Guillaume\\Downloads\\USArrests.csv")
+names(dfrArrest)[names(dfrArrest) == "X1"] <- "region"
+states_map <- map_data("state")
+
+
+rape_map <- left_join(states_map, dfrArrest, by = "region")
+
+for(i in 1:nrow(dfrArrest)){
+  for(j in 1:nrow(rape_map)){
+    if(tolower(rape_map$region[j]) == tolower(dfrArrest$region[i])){
+      rape_map$Murder[j] <- dfrArrest$Murder[i]
+      rape_map$Assault[j] <- dfrArrest$Assault[i]
+      rape_map$UrbanPop[j] <-dfrArrest$UrbanPop[i]
+      rape_map$Rape[j] <- dfrArrest$Rape[i]
+    }
+  }
+}
+
+ggplot(rape_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = Rape), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(rape_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = Assault), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(rape_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = UrbanPop), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+
+ggplot(rape_map, aes(long, lat, group = group))+
+  geom_polygon(aes(fill = Murder), color = "white")+
+  scale_fill_viridis_c(option = "C")+ theme_void()
+```
+
+
