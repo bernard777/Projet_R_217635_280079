@@ -685,7 +685,7 @@ Perform a k-means clustering algorithm with the variables "Total victims", "Long
 Make cross reference to other datasets, in particular datasets with information at the level of states (gun possession, death penalty, etc.).
 
 ```{r}
-dfrArrest <- readr::read_csv("C:\\Users\\Guillaume\\Downloads\\USArrests.csv")
+dfrArrest <- readr::read_csv("USArrests.csv")
 names(dfrArrest)[names(dfrArrest) == "X1"] <- "region"
 states_map <- map_data("state")
 
