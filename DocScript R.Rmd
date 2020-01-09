@@ -2,10 +2,13 @@
 title: "Projet"
 author: "Guillaume Picard and Jean Bernard NDONGO AMBASSA"
 date: "06/01/2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
+chooseCRANmirror(graphics=FALSE, ind=1)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -232,7 +235,7 @@ for(i in 1:nrow(dfr))
 *Gender
 
 ```{r}
-dfrClean <- dfr
+dfrClean <- dfr[!is.na(dfr$Cause),]
 dfrClean %>% 
   group_by(Gender) %>% 
   summarise(nb = n()) %>% 
@@ -241,7 +244,8 @@ dfrClean %>%
   ggplot( aes(x = fct_reorder(Gender, nb), y = nb)) + # 
   geom_col() +
   coord_flip() +
-  geom_text(aes(x = fct_reorder(Gender, nb), y = nb + 50, label = nb) )
+  geom_text(aes(x = fct_reorder(Gender, nb), y = nb + 50, label = nb) )+ 
+  labs(x = "Genre", y = "Nombre")
 
 genre <- c(284,21,5,4)
 #chisq.test(genre, p = c(1/4, 1/4, 1/4, 1/4))
@@ -269,7 +273,8 @@ dfrClean %>%
   ggplot( aes(x = fct_reorder(Race, nb), y = nb)) + # 
   geom_col() +
   coord_flip() +
-  geom_text(aes(x = fct_reorder(Race, nb), y = nb + 50, label = nb) )
+  geom_text(aes(x = fct_reorder(Race, nb), y = nb + 50, label = nb) )+ 
+  labs(x = "Ethnie", y = "Nombre")
 race <- c(140,83,66,17,5,3)
 chisq.test(race, p = c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6))
 prop.test(race,c(314,314,314,314,314,314))
@@ -297,7 +302,8 @@ dfrClean %>%
   ggplot( aes(x = fct_reorder(`Mental Health Issues`, nb), y = nb)) + # 
   geom_col() +
   coord_flip() +
-  geom_text(aes(x = fct_reorder(`Mental Health Issues`, nb), y = nb + 50, label = nb))
+  geom_text(aes(x = fct_reorder(`Mental Health Issues`, nb), y = nb + 50, label = nb))+ 
+  labs(x = "Troubles mentaux", y = "Nombre")
 mentalHealth <- c(120,103,91)
 chisq.test(mentalHealth, p = c(1/3,1/3,1/3))
 prop.test(mentalHealth,c(314,314,314))
@@ -325,7 +331,9 @@ dfrClean %>%
   ggplot( aes(x = fct_reorder(`Open/Close Location`, nb), y = nb)) + # 
   geom_col() +
   coord_flip() +
-  geom_text(aes(x = fct_reorder(`Open/Close Location`, nb), y = nb + 50, label = nb))
+  geom_text(aes(x = fct_reorder(`Open/Close Location`, nb), y = nb + 50, label = nb))+ 
+  labs(x = "Location", y = "Nombre")
+
 OpenClose <- c(211,79,20,4)
 chisq.test(OpenClose, p = c(1/4,1/4,1/4, 1/4))
 prop.test(OpenClose,c(314,314,314,314))
@@ -349,10 +357,11 @@ dfrClean %>%
   summarise(nb = n()) %>% 
   arrange(-nb) %>% 
   slice(1:10) %>% 
-  ggplot( aes(x = fct_reorder(Cause, nb), y = nb)) + # 
+  ggplot( aes(x = fct_reorder(Cause, nb), y = nb,label=)) + # 
   geom_col() +
   coord_flip() +
-  geom_text(aes(x = fct_reorder(Cause, nb), y = nb + 50, label = nb))
+  geom_text(aes(x = fct_reorder(Cause, nb), y = nb + 50, label = nb))+ 
+  labs(x = "Cause", y = "Nombre")
 cause <- c(77,64,61,44,18,12,10,9,6,4)
 prop.test(cause,c(314,314,314,314,314,314,314,314,314,314))
 ```
@@ -381,6 +390,7 @@ ggplot(dfrClean, aes(x = dfrClean$Gender, y = 1, fill = Race)) +
   ylab("Nombre\n") +
   theme_bw()
 ```
+
 INTERPRETATION:
 
 - Ce graphe presente la repartition des races par rapport aux genres des individus et on peut y lire que les américain de race blanche et ceux d'origine europeenne y sont largement reprsentés, suivi de pres par les noirs americains ou ceux d'origine africaine et en troisieme position vienne les personnes d'origines inconnues. on peut potentiellement deduire que les americains de race blanche ou d'origine europpenne on une prédisposition à la violence par exemmle.
@@ -395,6 +405,7 @@ ggplot(dfrClean, aes(x = dfrClean$`Mental Health Issues`, y = 1, fill = Race)) +
   ylab("Nombre\n") +
   theme_bw()
 ```
+
 INTERPRETATION:
 - Ce graphe presente la repartition des races par rapport aux genres des individus et on peut y lire que les américain de race blanche et ceux d'origine europeenne y sont largement reprsentés, suivi de pres par les noirs americains ou ceux d'origine africaine et en troisieme position vienne les personnes d'origines inconnues. on peut potentiellement deduire que les americains de race blanche ou d'origine europpenne on une prédisposition à la violence par exemmle.
 
@@ -407,6 +418,7 @@ ggplot(dfrClean, aes(x = dfrClean$`Mental Health Issues`, y = 1, fill = Gender))
   ylab("Nombre\n") +
   theme_bw()
 ```
+
 INTERPRETATION: 
 - Ce graphe represente la repartition des genres des individus par rapport aux fait qu'ils ont des troubles mentaux ou pas. Les hommes etant énormement représenté dans les deux cas, il en ressort que les hommes sont plus sujet aux troubles mentaux que les autres genres.
 
@@ -420,6 +432,7 @@ ggplot(dfrClean, aes(x = dfrClean$Race, y = 1, fill = Cause)) +
   theme_bw()
 
 ```
+
 INTERPRETATION: 
 - Ce graphe represente la repartition par race des causes à l'origines des crimes aux USA. Il en ressort que les causes les plus frequentes de mortalité à savoir psychologique, la frustration, therorisme, chomage sont orchestrés par les americains de race blanche ou d'origines europeennes. 
 
@@ -441,7 +454,8 @@ total victims / race
 
 ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$`Total victims`)) + 
    geom_boxplot(outlier.shape = NA) +
-  scale_y_continuous(limits = quantile(dfrClean$`Total victims`, c(0.1, 0.9)))
+  scale_y_continuous(limits = quantile(dfrClean$`Total victims`, c(0.1, 0.9)))+ 
+  labs(x = "Ethnie", y = "Total victimes")
 
 ```
 
@@ -450,15 +464,41 @@ age / race
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$Age)) + 
    geom_boxplot(outlier.shape = NA) +
-   coord_cartesian(ylim = c(0, 100))
+   coord_cartesian(ylim = c(0, 100))+ 
+  labs(x = "Ethnie", y = "Age")
 ```
+somme total victim // race
+```{r}
+plotdata <- dfr %>%
+  group_by(Race) %>%
+  summarize(mean_victim = mean(`Total victims`))
+
+plotdata2 <- dfr %>%
+  group_by(Race) %>%
+  summarize(sum_victim = sum(`Total victims`))
+
+ggplot(plotdata, 
+       aes(x = Race, 
+           y = mean_victim)) +
+  geom_bar(stat = "identity")+ 
+  labs(x = "Ethnie", y = "moyenne victimes")
+
+ggplot(plotdata2, 
+       aes(x = Race, 
+           y = sum_victim)) +
+  geom_bar(stat = "identity")+ 
+  labs(x = "Ethnie", y = "somme victimes")
+
+```
+
 
 openClause / total victim
 
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$`Open/Close Location`, y=dfrClean$`Total victims`)) + 
    geom_boxplot(outlier.shape = NA) +
-   coord_cartesian(ylim = c(0, 20))
+   coord_cartesian(ylim = c(0, 20))+ 
+  labs(x = "Location", y = "Total victimes")
 ```
 
 cause / total victims
@@ -466,11 +506,13 @@ cause / total victims
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$Cause, y=dfrClean$`Total victims`)) + 
    geom_boxplot(outlier.shape = NA) +
-   coord_cartesian(ylim = c(0, 180))
+   coord_cartesian(ylim = c(0, 180))+ 
+  labs(x = "Cause", y = "Total victimes")
 
 ggplot(dfrClean, aes(x=dfrClean$Cause, y=dfrClean$`Total victims`)) + 
    geom_boxplot(outlier.shape = NA) +
-   coord_cartesian(ylim = c(0, 30))
+   coord_cartesian(ylim = c(0, 30))+ 
+  labs(x = "Cause", y = "Total victimes")
 ```
 
 
@@ -479,25 +521,29 @@ age / nb victim
 ggplot(dfrClean, 
        aes(x = dfrClean$Age, 
            y = dfrClean$`Total victims`)) +
-  geom_point()
+  geom_point()+ 
+  labs(x = "Age", y = "Total victimes")
 
 ggplot(dfrClean, 
        aes(x = dfrClean$Age, 
            y = dfrClean$`Total victims`)) +
   geom_point(aes(colour = factor(dfrClean$Cause)), size = 4)+
-  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))
+  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))+ 
+  labs(x = "Age", y = "Total victimes")
 
 ggplot(dfrClean, 
        aes(x = dfrClean$Age, 
            y = dfrClean$`Total victims`)) +
   geom_point(aes(colour = factor(dfrClean$`Open/Close Location`)), size = 4)+
-  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))
+  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))+ 
+  labs(x = "Age", y = "Total victimes")
 
 ggplot(dfrClean, 
        aes(x = dfrClean$Age, 
            y = dfrClean$`Total victims`)) +
   geom_point(aes(colour = factor(dfrClean$Race)), size = 4)+
-  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))
+  coord_cartesian(ylim = c(0, 30),xlim = c(0,75))+ 
+  labs(x = "Age", y = "Total victimes")
 ```
 
 
@@ -573,17 +619,20 @@ FatalityByYear$Year <- as.Date(FatalityByYear$Year, format='%y')
 ggplot(FatalityByYear, 
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$`Total victims`)) +
-  geom_point()
+  geom_point()+
+  labs(x = "Année", y = "Total victimes")
 
 ggplot(FatalityByYear, 
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$Injured)) +
-  geom_point()
+  geom_point()+
+  labs(x = "Année", y = "bléssés")
 
 ggplot(FatalityByYear, 
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$Fatalities)) +
-  geom_point()
+  geom_point()+
+  labs(x = "Année", y = "morts")
 
 
 ```
@@ -599,20 +648,23 @@ ggplot(FatalityByYear,
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$`Total victims`)) +
   geom_point()+
-  geom_smooth(method='loess', formula= y~x,color="red")
+  geom_smooth(method='loess', formula= y~x,color="red")+
+  labs(x = "Année", y = "Total victimes")
   
 
 ggplot(FatalityByYear, 
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$Injured)) +
   geom_point()+
-  geom_smooth(method='loess', formula= y~x)
+  geom_smooth(method='loess', formula= y~x)+
+  labs(x = "Année", y = "bléssés")
 
 ggplot(FatalityByYear, 
        aes(x = FatalityByYear$Year, 
            y = FatalityByYear$Fatalities)) +
   geom_point()+
-  geom_smooth(method='loess', formula= y~x)
+  geom_smooth(method='loess', formula= y~x)+
+  labs(x = "Age", y = "morts")
 ```
 
 Use the variables "Longitude" and "Latitude" to draw a scatterplot with the US map in background. Documente yourself to do that. Make several versions.
