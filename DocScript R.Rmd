@@ -464,7 +464,12 @@ ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$`Total victims`)) +
 
 ```
 
-age / race
+INTERPRETATION:
+
+-Apres une analyse du resultat de l'étude entre le nombre des victimes totales et des races on remarque que les latinos commettent le plus de victime que les autres races. En outre on remarque que les ameriacains de race blanche ou d'origine europeennes et les americains de race noires ou d'origine africaine commenttent presque le meme nombre de victime.  
+
+
+* age / race
 
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$Race, y=dfrClean$Age)) + 
@@ -496,6 +501,10 @@ ggplot(plotdata2,
 
 ```
 
+INTERPRETATION :
+
+Grace à l'etude méné sur la relation entre l'age et la race , on remarque grace à ce graphe que les moyennes d'age des races des personnes qui commettent des crimes sont comprises entre 28 et 33 ans. 
+
 
 openClause / total victim
 
@@ -506,7 +515,12 @@ ggplot(dfrClean, aes(x=dfrClean$`Open/Close Location`, y=dfrClean$`Total victims
   labs(x = "Location", y = "Total victimes")
 ```
 
-cause / total victims
+INTERPRETATION: 
+
+-En etudiant la relation entre les variables Open/close location et le total victim nous remarquons que le plus grand nombre de victime  se situe dans dans les zones ouvert 
+
+
+* cause / total victims
 
 ```{r}
 ggplot(dfrClean, aes(x=dfrClean$Cause, y=dfrClean$`Total victims`)) + 
@@ -520,6 +534,9 @@ ggplot(dfrClean, aes(x=dfrClean$Cause, y=dfrClean$`Total victims`)) +
   labs(x = "Cause", y = "Total victimes")
 ```
 
+INTERPRETATION: 
+
+-Sur ce graphe on constate qu'il ya plus de victime du à des causes inconnues mais en majorité les causes faisant le plus de victime sont les moins frequentes comme l'alcool, le vole et le radicalisme religieux. 
 
 age / nb victim
 ```{r}
