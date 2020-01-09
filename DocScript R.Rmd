@@ -373,7 +373,6 @@ Tous ces résultats sont visibles grace au graphique realisé à cet effet.
 
 * RACE / GENDER
 
-
 ```{r}
 library(ggplot2)
 ggplot(dfrClean, aes(x = dfrClean$Gender, y = 1, fill = Race)) + 
@@ -382,8 +381,13 @@ ggplot(dfrClean, aes(x = dfrClean$Gender, y = 1, fill = Race)) +
   ylab("Nombre\n") +
   theme_bw()
 ```
+INTERPRETATION:
 
-troubles mentaux / gender
+- Ce graphe presente la repartition des races par rapport aux genres des individus et on peut y lire que les américain de race blanche et ceux d'origine europeenne y sont largement reprsentés, suivi de pres par les noirs americains ou ceux d'origine africaine et en troisieme position vienne les personnes d'origines inconnues. on peut potentiellement deduire que les americains de race blanche ou d'origine europpenne on une prédisposition à la violence par exemmle.
+
+
+*troubles mentaux / gender
+
 ```{r}
 ggplot(dfrClean, aes(x = dfrClean$`Mental Health Issues`, y = 1, fill = Race)) + 
   geom_bar(stat = "identity") +
