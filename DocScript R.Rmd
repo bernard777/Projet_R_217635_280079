@@ -391,6 +391,8 @@ ggplot(dfrClean, aes(x = dfrClean$`Mental Health Issues`, y = 1, fill = Race)) +
   ylab("Nombre\n") +
   theme_bw()
 ```
+INTERPRETATION:
+- Ce graphe presente la repartition des races par rapport aux genres des individus et on peut y lire que les américain de race blanche et ceux d'origine europeenne y sont largement reprsentés, suivi de pres par les noirs americains ou ceux d'origine africaine et en troisieme position vienne les personnes d'origines inconnues. on peut potentiellement deduire que les americains de race blanche ou d'origine europpenne on une prédisposition à la violence par exemmle.
 
 troubles metaux / genre
 ```{r}
