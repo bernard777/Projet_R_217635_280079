@@ -447,6 +447,11 @@ INTERPRETATION:
 dfr %>% 
   summary()
 ```
+INTERPRETATION:
+
+-Apres une etude des variables quantitatives, nous observons grace notamment aux moyennes des variables Fatalities et Injured qu'il ya un peu pls de mort que de blaissé. 
+
+-Si nous nous interessons un peu plus à la variable Age et à sa medianne on pourrait dire que les crimes sont en majorité commis par les personnes se situant au debut de la trentaine , disons 33 ans.
 
 Represent associations between quantitative variables and categorical variables 
 total victims / race
