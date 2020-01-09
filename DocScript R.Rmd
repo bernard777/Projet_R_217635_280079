@@ -579,7 +579,7 @@ INTERPRETATION:
 
 
 
-perform t-tests to compare pairwise the mean of the variable "Total victims" depending on two levels of some categorical variables (Mental Health issue or not, Male or Female, Open or Close Location, etc.). Same question with the variable "Age".
+3.3 - effectuer des t-tests pour comparer par paire la moyenne de la variable «Total victimes» en fonction de deux niveaux de certaines variables catégorielles (problème de santé mentale ou non, homme ou femme, lieu ouvert ou fermé, etc.). Même question avec la variable "Age".
 
 ```{r}
 MHIyes <- dfr[dfr$`Mental Health Issues` == "Yes",]
@@ -595,9 +595,6 @@ t.test(Male$`Total victims`,dfr$Age)
 t.test(Female$`Total victims`,dfr$Age)
 t.test(open$`Total victims`,dfr$Age)
 t.test(close$`Total victims`,dfr$Age)
-
-
-
 
 ```
 
